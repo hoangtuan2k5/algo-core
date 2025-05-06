@@ -1,5 +1,7 @@
 package io.github.hoangtuan2k5.datastructures.array;
 
+import java.util.Iterator;
+
 /**
  * Lớp triển khai mảng tĩnh (Static Array) có hỗ trợ kiểu dữ liệu tổng quát.
  * <p>
@@ -14,7 +16,7 @@ package io.github.hoangtuan2k5.datastructures.array;
  * @author Hoàng Chiều Nguyễn Tuấn
  * @param <T> Kiểu dữ liệu của các phần tử được lưu trữ trong mảng
  */
-public class StaticArray<T> {
+public class StaticArray<T> implements Iterable<T> {
     private final T[] array;
     private final int capacity;
     
@@ -31,7 +33,6 @@ public class StaticArray<T> {
         }
         
         this.capacity = capacity;
-        // Java không cho phép tạo trực tiếp các mảng generic, do đó chúng ta cần ép kiểu
         this.array = (T[]) new Object[capacity];
     }
     
@@ -60,6 +61,15 @@ public class StaticArray<T> {
     }
     
     /**
+     * Xóa tất cả các phần tử trong mảng bằng cách đặt chúng thành null.
+     */
+    public void clear() {
+        for (int i = 0; i < capacity; i++) {
+            array[i] = null;
+        }
+    }
+    
+    /**
      * Điền vào mảng với phần tử đã chỉ định.
      * 
      * @param element Phần tử để điền vào mảng
@@ -67,15 +77,6 @@ public class StaticArray<T> {
     public void fill(T element) {
         for (int i = 0; i < capacity; i++) {
             array[i] = element;
-        }
-    }
-    
-    /**
-     * Xóa tất cả các phần tử trong mảng bằng cách đặt chúng thành null.
-     */
-    public void clear() {
-        for (int i = 0; i < capacity; i++) {
-            array[i] = null;
         }
     }
     
@@ -200,5 +201,30 @@ public class StaticArray<T> {
         StaticArray<T> newArray = new StaticArray<>(capacity);
         System.arraycopy(array, 0, newArray.array, 0, capacity);
         return newArray;
+    }
+
+    /**
+     * Trả về một Iterator cho mảng này.
+     * 
+     * @return Một Iterator cho mảng này
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < capacity;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new IndexOutOfBoundsException("No more elements to iterate.");
+                }
+                return array[currentIndex++];
+            }
+        };
     }
 }
