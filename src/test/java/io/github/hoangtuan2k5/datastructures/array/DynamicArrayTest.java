@@ -1,7 +1,8 @@
 package io.github.hoangtuan2k5.datastructures.array;
 
-import junit.framework.TestCase;
 import java.util.Iterator;
+
+import junit.framework.TestCase;
 
 /**
  * Các kiểm thử đơn vị cho việc triển khai DynamicArray (Mảng Động).
@@ -22,7 +23,6 @@ public class DynamicArrayTest extends TestCase {
             new DynamicArray<>(-1);
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
-            // Ngoại lệ được mong đợi
         }
     }
     
